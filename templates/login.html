@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}ログイン - StudyLog{% endblock %}
+{% block content %}
+<h1>__ログイン__</h1>
+
+<form action="/login" method="post" class="col-md-6">
+  <div class="mb-3">
+    <label class="form-label" for="email">メールアドレス</label>
+    <input type="email" name="email" id="email" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password">パスワード</label>
+    <input type="password" name="password" id="password" class="form-control" required>
+  </div>
+  <button class="btn btn-primary">ログイン</button>
+  <a href="/register" class="btn btn-link">新規登録はこちら</a>
+</form>
+{% endblock %}
