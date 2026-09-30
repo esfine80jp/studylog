@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}ダッシュボード - StudyLog{% endblock %}
+{% block content %}
+<h1>ダッシュボード</h1>
+
+<div class="progress mb-4" style="height: 24px;">
+  <div class="progress-bar" role="progressbar"
+       style="width: {{ [progress['rate'], 100] | min }}%;">
+    {{ progress['rate'] }}%
+  </div>
+</div>
+<p>今週の実績：{{ progress['actual'] // 60 }}時間{{ progress['actual'] % 60 }}分
+   ／ 目標：{{ progress['goal'] // 60 }}時間</p>
+{% if graph %}
+<img src="data:image/png;base64,{{ graph }}" alt="今週の科目別学習比率" class="img-fluid">
+{% else %}
+<p>今週はまだ記録がありません。</p>
+{% endif %}
+{% endblock %}

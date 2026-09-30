@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}目標設定 - StudyLog{% endblock %}
+{% block content %}
+<h1>週間目標の設定</h1>
+
+<table class="table">
+  <thead><tr><th>科目</th><th>現在の目標</th><th>変更</th></tr></thead>
+  <tbody>
+
+    {% for s in subjects %}
+    <tr>
+      <td>{{ s["name"] }}</td>
+      <td>{{ goals.get(s["id"], 0) // 60 }} 時間</td>
+      <td>
+        <form action="/goals" method="post" class="d-flex gap-2">
+          <input type="hidden" name="subject_id" value="{{ s['id'] }}">
+          <input type="number" name="hours" min="1" class="form-control" style="width:6rem">
+          <button class="btn btn-sm btn-primary">保存</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

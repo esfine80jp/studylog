@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}記録一覧 - StudyLog{% endblock %}
+{% block content %}
+<h1>記録一覧</h1>
+
+<form action="/logs" method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="subject_id" class="form-select">
+      <option value="">すべての科目</option>
+      {% for s in subjects %}
+      <option value="{{ s['id'] }}"
+              {% if s["id"] == subject_id %}selected{% endif %}>{{ s["name"] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-outline-secondary">絞り込む</button>
+  </div>
+  <div class="col-auto ms-auto">
+    <a href="/logs/new" class="btn btn-primary">記録を追加</a>
+  </div>
+</form>
+
+{% if logs %}
+<table class="table table-hover">
+  <thead><tr><th>日付</th><th>科目</th><th>時間</th><th>メモ</th><th></th></tr></thead>
+  <tbody>
+
+    {% for log in logs %}
+    <tr>
+      <td>{{ log["date"] }}</td>
+      <td><span class="badge" style="background:{{ log['color'] }}">{{ log["subject_name"] }}</span></td>
+      <td>{{ log["minutes"] // 60 }}時間{{ log["minutes"] % 60 }}分</td>
+      <td>{{ log["memo"] }}</td>
+      <td>
+        <a href="/logs/{{ log['id'] }}/edit" class="btn btn-sm btn-outline-primary">編集</a>
+        <form action="/logs/{{ log['id'] }}/delete" method="post" class="d-inline">
+          <button class="btn btn-sm btn-outline-danger"
+                  onclick="return confirm('削除しますか？')">削除</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-muted">まだ記録がありません。最初の記録を追加しましょう。</p>
+<a href="/logs/new" class="btn btn-primary">記録を追加する</a>
+{% endif %}
+{% endblock %}

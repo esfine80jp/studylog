@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}記録の編集 - StudyLog{% endblock %}
+{% block content %}
+<h1>記録の編集</h1>
+
+<form action="/logs/{{ log['id'] }}/edit" method="post" class="col-md-6">
+  <div class="mb-3">
+    <label class="form-label" for="date">日付</label>
+    <input type="date" name="date" id="date" class="form-control"
+           value="{{ log['date'] }}" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label" for="subject_id">科目</label>
+    <select name="subject_id" id="subject_id" class="form-select" required>
+      {% for s in subjects %}
+      <option value="{{ s['id'] }}"
+              {% if s["id"] == log["subject_id"] %}selected{% endif %}>{{ s["name"] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label" for="hours">学習時間</label>
+    <div class="input-group">
+      <input type="number" name="hours" id="hours" class="form-control"
+             min="0" value="{{ log['minutes'] // 60 }}">
+      <span class="input-group-text">時間</span>
+      <input type="number" name="minutes" id="minutes" class="form-control"
+             min="0" max="59" value="{{ log['minutes'] % 60 }}">
+      <span class="input-group-text">分</span>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label" for="memo">メモ</label>
+    <textarea name="memo" id="memo" class="form-control" rows="2">{{ log["memo"] }}</textarea>
+  </div>
+  <button class="btn btn-primary">更新する</button>
+  <a href="/logs" class="btn btn-link">一覧に戻る</a>
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}科目管理 - StudyLog{% endblock %}
+{% block content %}
+<h1>科目管理</h1>
+
+<form action="/subjects" method="post" class="row g-2 mb-4">
+  <div class="col-auto">
+    <input type="text" name="name" class="form-control" placeholder="科目名" required>
+  </div>
+  <div class="col-auto">
+    <input type="color" name="color" class="form-control form-control-color" value="#4A90E2">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary">追加</button>
+  </div>
+</form>
+<ul class="list-group">
+  {% for s in subjects %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span class="badge" style="background:{{ s['color'] }}">{{ s["name"] }}</span>
+    <form action="/subjects/{{ s['id'] }}/delete" method="post">
+      <button class="btn btn-sm btn-outline-danger">削除</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
